@@ -1,0 +1,41 @@
+services:
+  airflow:
+    build: .
+    container_name: weather-airflow
+    restart: no
+    networks:
+      - weather-net
+    user: "${AIRFLOW_UID:-50000}:0"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__FERNET_KEY: ""
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW_CORE_ENABLE_XCOM_PICKLING: "true"
+      _AIRFLOW_DB_MIGRATE: "true"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./config:/opt/airflow/config
+    ports:
+      - "8080:8080"
+    command: standalone
+
+  docker-proxy:
+    image: tecnativa/docker-socket-proxy:v0.4.2
+    container_name: weather-docker-proxy
+    restart: no
+    networks:
+      - weather-net
+    environment:
+      CONTAINERS: 1
+      NETWORKS: 1
+      IMAGES: 1
+      AUTH: 1
+      POST: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
