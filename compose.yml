@@ -1,0 +1,18 @@
+include:
+  - path: ./airflow/compose.yml
+  - path: ./clickhouse/compose.yml
+  - path: ./kafka/compose.yml
+  - path: ./metabase/compose.yml
+  - path: ./minio/compose.yml
+  - path: ./postgres/compose.yml
+
+volumes:
+  postgres-data:
+  minio-data:
+  kafka-data:
+  clickhouse-data:
+  clickhouse-logs:
+
+networks:
+  weather-net:
+    driver: bridge
