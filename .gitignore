@@ -4,3 +4,7 @@ terraform/.terraform
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
+
+airflow/dags/__pycache__
+airflow/logs
+airflow/config
