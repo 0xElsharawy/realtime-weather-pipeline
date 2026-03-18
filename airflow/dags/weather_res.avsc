@@ -1,0 +1,40 @@
+{
+  "type": "record",
+  "name": "WeatherResponse",
+  "namespace": "com.weather.api",
+  "fields": [
+    { "name": "latitude", "type": "double" },
+    { "name": "longitude", "type": "double" },
+    { "name": "generationtime_ms", "type": "double" },
+    { "name": "utc_offset_seconds", "type": "int" },
+    { "name": "timezone", "type": "string" },
+    { "name": "timezone_abbreviation", "type": "string" },
+    { "name": "elevation", "type": "double" },
+    {
+      "name": "current_units",
+      "type": {
+        "type": "record",
+        "name": "CurrentUnits",
+        "fields": [
+          { "name": "time", "type": "string" },
+          { "name": "interval", "type": "string" },
+          { "name": "temperature_2m", "type": "string" },
+          { "name": "wind_speed_10m", "type": "string" }
+        ]
+      }
+    },
+    {
+      "name": "current",
+      "type": {
+        "type": "record",
+        "name": "CurrentData",
+        "fields": [
+          { "name": "time", "type": "string" },
+          { "name": "interval", "type": "int" },
+          { "name": "temperature_2m", "type": "double" },
+          { "name": "wind_speed_10m", "type": "double" }
+        ]
+      }
+    }
+  ]
+}
