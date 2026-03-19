@@ -35,6 +35,7 @@
           { "name": "wind_speed_10m", "type": "double" }
         ]
       }
-    }
+    },
+    { "name": "city", "type": "string" }
   ]
 }
