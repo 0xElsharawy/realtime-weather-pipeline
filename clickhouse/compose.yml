@@ -2,6 +2,8 @@ services:
   clickhouse:
     image: clickhouse/clickhouse-server:26.2
     container_name: weather-clickhouse
+    env_file:
+      - ../.env
     restart: no
     networks:
       - weather-net
@@ -20,6 +22,13 @@ services:
     volumes:
       - clickhouse-data:/var/lib/clickhouse
       - clickhouse-logs:/var/log/clickhouse-server
+      - ./init.sh:/init.sh
+    entrypoint: >
+      /bin/bash -c "
+      /entrypoint.sh &
+      /init.sh &&
+      wait
+      "
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8123/ping"]
       interval: 10s
