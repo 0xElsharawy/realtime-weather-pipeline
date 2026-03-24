@@ -18,8 +18,9 @@ services:
       - ./src/:/opt/src
     command: jobmanager
     environment:
-      FLINK_PROPERTIES: "jobmanager.rpc.address:jobmanager"
-      jobmanager.memory.process.size: "1600m"
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address:jobmanager
+        jobmanager.memory.process.size: 1600m
 
   taskmanager:
     image: weather-pyflink
@@ -35,10 +36,11 @@ services:
       - jobmanager
     command: ["taskmanager", "--taskmanager.registration.timeout", "300s"]
     environment:
-      FLINK_PROPERTIES: "jobmanager.rpc.address:jobmanager"
-      taskmanager.memory.process.size: "1728m"
-      taskmanager.numberOfTaskSlots: "15"
-      parallelism.default: "3"
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address:jobmanager
+        taskmanager.memory.process.size: 1728m
+        taskmanager.numberOfTaskSlots: 15
+        parallelism.default: 3
     volumes:
       - ./:/opt/flink/usrlib
       - ./src/:/opt/src
